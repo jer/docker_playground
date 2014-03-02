@@ -7,8 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package 'vim'
-package 'git'
+%w{ vim git }.each do |p|
+  package p
+end
 
 apt_repository 'docker' do
   uri 'https://get.docker.io/ubuntu docker'
@@ -19,7 +20,7 @@ apt_repository 'docker' do
 end
 
 package 'linux-image-extra-' << `uname -r`
-package 'lxc'
-package 'curl'
-package 'xz-utils'
-package 'lxc-docker'
+%w{ lxc curl xz-utils lxc-docker }.each do |p|
+  package p
+end
+
