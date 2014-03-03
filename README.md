@@ -16,9 +16,18 @@ embedded elasticsearch and kibnana.
 
 Steps to build and run (after `vagrant up`, `vagrant ssh`):
 
-- `cd /vagrant/logstash/logstash-server`
-- `sudo docker build --rm=true -t metrics/logstash .`
-- `sudo docker run -p 9292:9292 -p 9200:9200 metrics/logstash`
+- Install and run elasticsearch:
+
+      cd /vagrant/logstash/elasticsearch
+      sudo docker build -t metrics/elasticsearch .
+      sudo docker run -d -p 9200:9200 --name elasticsearch metrics/elasticsearch
+
+- Install and run the logstash indexer and web interface:
+
+      cd /vagrant/logstash/logstash-server
+      sudo docker build -t metrics/logstash .
+      sudo docker run -d -p 9292:9292 --link elasticsearch:elasticsearch metrics/logstash
+
 - Visit `http://192.168.100.5:9292/` in your browser.
 
 

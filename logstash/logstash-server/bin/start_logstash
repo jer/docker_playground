@@ -1,0 +1,33 @@
+#!/bin/bash
+
+cat <<EOF > logstash-complex.conf
+input {
+  stdin {
+    type => "stdin-type"
+  }
+
+  file {
+    type => "linux-syslog"
+
+    # Wildcards work, here :)
+    path => [ "/var/log/*.log", "/var/log/messages", "/var/log/syslog" ]
+
+    # Import everything from the start
+    start_position => "beginning"
+  }
+}
+
+output {
+  stdout { }
+  elasticsearch {
+    host => "$ELASTICSEARCH_PORT_9300_TCP_ADDR"
+    port => 9300
+  }
+}
+
+EOF
+
+java -jar logstash.jar \
+  agent \
+    -f logstash-complex.conf \
+  web

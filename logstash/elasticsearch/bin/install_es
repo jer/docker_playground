@@ -1,0 +1,10 @@
+#!/bin/bash
+ES_PACKAGE=elasticsearch-0.90.9.zip
+ES_DIR=${ES_PACKAGE%%.zip}
+SITE=https://download.elasticsearch.org/elasticsearch/elasticsearch
+if [ ! -d "$ES_DIR" ] ; then
+  wget $SITE/$ES_PACKAGE
+  unzip $ES_PACKAGE
+fi
+
+ln -s "$ES_DIR" elasticsearch
